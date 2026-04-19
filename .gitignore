@@ -1,0 +1,29 @@
+# PHP and project files
+/vendor/
+/.env
+/.idea/
+/.vscode/
+/node_modules/
+*.log
+*.cache
+*.tmp
+*.bak
+*.swp
+*.zip
+*.tar.gz
+*.sql
+*.sqlite
+.DS_Store
+Thumbs.db
+
+# XAMPP / Apache / system files
+htdocs/**/error_log
+htdocs/**/php_errorlog
+*.pid
+*.seed
+
+# Composer
+composer.lock
+
+# Build artifacts
+public/build/
