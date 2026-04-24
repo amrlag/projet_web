@@ -17,4 +17,18 @@ class HomeController extends Controller
             'title' => 'À propos - Projet Web'
         ]);
     }
+
+    public function users()
+    {
+    require_once __DIR__ . '/../models/User.php';
+
+    $userModel = new User();
+    $users = $userModel->getAllUsers();
+
+    $this->render('users', [
+        'title' => 'Liste des utilisateurs',
+        'users' => $users
+    ]);
+    }
+    
 }

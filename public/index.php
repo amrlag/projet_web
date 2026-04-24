@@ -10,6 +10,8 @@ if ($page === 'home') {
     $controller->index();
 } elseif ($page === 'about') {
     $controller->about();
+} elseif ($page === 'users') {
+    $controller->users();
 } else {
     echo "Page introuvable";
 }
