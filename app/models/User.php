@@ -20,4 +20,27 @@ class User
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function create($data)
+    {
+    $sql = "INSERT INTO users 
+            (first_name, last_name, address, postal_code, birth_date, email, username, password_hash)
+            VALUES 
+            (:first_name, :last_name, :address, :postal_code, :birth_date, :email, :username, :password_hash)";
+
+    $stmt = $this->pdo->prepare($sql);
+
+    return $stmt->execute([
+        'first_name' => $data['first_name'],
+        'last_name' => $data['last_name'],
+        'address' => $data['address'],
+        'postal_code' => $data['postal_code'],
+        'birth_date' => $data['birth_date'],
+        'email' => $data['email'],
+        'username' => $data['username'],
+        'password_hash' => password_hash($data['password'], PASSWORD_DEFAULT)
+    ]);
+    }
+
+    
 }
