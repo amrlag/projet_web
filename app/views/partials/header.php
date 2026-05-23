@@ -8,7 +8,9 @@
 
 <nav>
     <a href="?page=home">Accueil</a> |
-    <a href="?page=about">À propos</a>
+    <a href="?page=about">À propos</a> |
+    <a href="?page=users">Utilisateurs</a> |
+    <a href="?page=register">Inscription</a>
 </nav>
 
 <hr>
