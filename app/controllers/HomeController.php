@@ -1,6 +1,8 @@
+
 <?php
 
 require_once __DIR__ . '/../core/Controller.php';
+require_once __DIR__ . '/../core/Auth.php';
 
 class HomeController extends Controller
 {
@@ -30,5 +32,21 @@ class HomeController extends Controller
         'users' => $users
     ]);
     }
+
+    public function memberArea()
+    {
+    if (!Auth::isLoggedIn()) {
+        $this->render('access_denied', [
+            'title' => 'Accès refusé',
+            'message' => 'Vous devez être connecté pour accéder à cet espace.'
+        ]);
+        return;
+    }
+
+    $this->render('member_area', [
+        'title' => 'Espace membre'
+    ]);
+    }
+
     
 }
