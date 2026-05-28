@@ -13,8 +13,9 @@
     <a href="?page=member_area">Espace membre</a> |
 
     <?php if (isset($_SESSION['user'])): ?>
-        Bonjour <?= htmlspecialchars($_SESSION['user']['username']) ?> |
-        <a href="?page=logout">Déconnexion</a>
+    Bonjour <?= htmlspecialchars($_SESSION['user']['username']) ?> |
+    <a href="?page=profile">Modifier profil</a> |
+    <a href="?page=logout">Déconnexion</a>
     <?php else: ?>
         <a href="?page=register">Inscription</a> |
         <a href="?page=login">Connexion</a>

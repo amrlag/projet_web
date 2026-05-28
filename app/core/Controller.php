@@ -5,6 +5,14 @@ class Controller
     protected function render($view, $data = [])
     {
         extract($data);
-        require_once __DIR__ . '/../views/' . $view . '.php';
+
+        $viewPath = __DIR__ . '/../views/' . $view . '.php';
+
+        if (!file_exists($viewPath)) {
+            echo "Vue introuvable : " . htmlspecialchars($viewPath);
+            return;
+        }
+
+        require $viewPath;
     }
 }

@@ -1,9 +1,14 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
 require_once __DIR__ . '/../app/controllers/HomeController.php';
 require_once __DIR__ . '/../app/controllers/AuthController.php';
+require_once __DIR__ . '/../app/controllers/ProfileController.php';
 
 $page = $_GET['page'] ?? 'home';
 
@@ -41,6 +46,12 @@ if ($page === 'home') {
 } elseif ($page === 'member_area') {
     $controller = new HomeController();
     $controller->memberArea();
-   } else {
+   } elseif ($page === 'profile') {
+    $controller = new ProfileController();
+    $controller->edit();
+   } elseif ($page === 'profile_update') {
+    $controller = new ProfileController();
+    $controller->update();
+    } else {
     echo "Page introuvable";
 }
