@@ -36,6 +36,7 @@
     <a href="?page=about">À propos</a> |
     <a href="?page=users">Utilisateurs</a> |
     <a href="?page=member_area">Espace membre</a> |
+    <a href="?page=blog">Blog / News</a> |
 
     <?php
 
