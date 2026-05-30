@@ -2,7 +2,7 @@
 
 <h1>Accès refusé</h1>
 
-<p><?= htmlspecialchars($message) ?></p>
+<p><?= htmlspecialchars($message ?? 'Accès refusé') ?></p>
 
 <p>
     <a href="?page=login">Se connecter</a> |
