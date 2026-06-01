@@ -25,7 +25,7 @@ class Post
             // Requête SQL qui cherche les billets dont le titre contient le mot recherché
             $sql = "SELECT posts.*, users.username 
                     FROM posts 
-                    JOIN users ON posts.user_id = users.id
+                    JOIN users ON posts.author_user_id = users.id
                     WHERE posts.title LIKE :search
                     ORDER BY posts.created_at DESC";
 
@@ -44,7 +44,7 @@ class Post
         // Requête SQL qui récupère tous les billets avec le pseudo de l'auteur
         $sql = "SELECT posts.*, users.username 
                 FROM posts 
-                JOIN users ON posts.user_id = users.id
+                JOIN users ON posts.author_user_id = users.id
                 ORDER BY posts.created_at DESC";
 
         // On exécute la requête et on retourne tous les billets
@@ -57,7 +57,7 @@ class Post
         // Requête SQL qui récupère un billet précis avec le pseudo de l'auteur
         $sql = "SELECT posts.*, users.username 
                 FROM posts 
-                JOIN users ON posts.user_id = users.id
+                JOIN users ON posts.author_user_id = users.id
                 WHERE posts.id = :id";
 
         // On prépare la requête

@@ -2,7 +2,7 @@
 
 return [
     'host' => 'localhost',
-    'dbname' => 'projet_base_noellie_amr_angel',
+    'dbname' => 'projet_web_noellie_angel_amr',
     'username' => 'root',
     'password' => ''
 ];
