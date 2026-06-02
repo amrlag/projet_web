@@ -22,15 +22,23 @@ class HomeController extends Controller
 
     public function users()
     {
-    require_once __DIR__ . '/../models/User.php';
+        if (!Auth::isAdmin()) {
+            $this->render('access_denied', [
+                'title' => 'Accès refusé',
+                'message' => 'Vous devez être administrateur pour accéder à la liste des utilisateurs.'
+            ]);
+            return;
+        }
 
-    $userModel = new User();
-    $users = $userModel->getAllUsers();
+        require_once __DIR__ . '/../models/User.php';
 
-    $this->render('users', [
-        'title' => 'Liste des utilisateurs',
-        'users' => $users
-    ]);
+        $userModel = new User();
+        $users = $userModel->getAllUsers();
+
+        $this->render('users', [
+            'title' => 'Liste des utilisateurs',
+            'users' => $users
+        ]);
     }
 
     public function memberArea()
