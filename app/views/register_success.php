@@ -41,12 +41,12 @@ require_once __DIR__ . '/partials/header.php';
 <p>
     <!-- 
         Ce lien permet de rediriger l'utilisateur vers la page
-        qui affiche la liste des utilisateurs.
+        de connexion.
         
-        Le paramètre ?page=users sera lu par le routeur de l'application
+        Le paramètre ?page=login sera lu par le routeur de l'application
         pour savoir quelle page afficher.
     -->
-    <a href="?page=users">Voir la liste des utilisateurs</a>
+    <a href="?page=login">Se connecter</a>
 </p>
 
 <?php

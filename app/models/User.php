@@ -14,11 +14,40 @@ class User
     public function getAllUsers()
     {
         $sql = "SELECT id, first_name, last_name, email, username, role, is_blocked, created_at 
-                FROM users";
+                FROM users
+                ORDER BY created_at DESC";
 
         $stmt = $this->pdo->query($sql);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function emailExists($email)
+    {
+        $sql = "SELECT id FROM users
+                WHERE email = :email
+                LIMIT 1";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            'email' => $email
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function usernameExists($username)
+    {
+        $sql = "SELECT id FROM users
+                WHERE username = :username
+                LIMIT 1";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            'username' => $username
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function create($data)
@@ -70,45 +99,62 @@ class User
 
     public function findById($id)
     {
-    $sql = "SELECT id, first_name, last_name, address, postal_code, email, username, role
-            FROM users
-            WHERE id = :id
-            LIMIT 1";
+        $sql = "SELECT id, first_name, last_name, address, postal_code, email, username, role
+                FROM users
+                WHERE id = :id
+                LIMIT 1";
 
-    $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
 
-    $stmt->execute([
-        'id' => $id
-    ]);
+        $stmt->execute([
+            'id' => $id
+        ]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function emailExistsForOtherUser($email, $userId)
-{
-    $sql = "SELECT id FROM users
-            WHERE email = :email
-            AND id != :user_id
-            LIMIT 1";
+    {
+        $sql = "SELECT id FROM users
+                WHERE email = :email
+                AND id != :user_id
+                LIMIT 1";
 
-    $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
 
-    $stmt->execute([
-        'email' => $email,
-        'user_id' => $userId
-    ]);
+        $stmt->execute([
+            'email' => $email,
+            'user_id' => $userId
+        ]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-public function updateProfile($userId, $data)
-{
-    if (!empty($data['password'])) {
+    public function updateProfile($userId, $data)
+    {
+        if (!empty($data['password'])) {
+            $sql = "UPDATE users
+                    SET address = :address,
+                        postal_code = :postal_code,
+                        email = :email,
+                        password_hash = :password_hash
+                    WHERE id = :id";
+
+            $stmt = $this->pdo->prepare($sql);
+
+            return $stmt->execute([
+                'address' => $data['address'],
+                'postal_code' => $data['postal_code'],
+                'email' => $data['email'],
+                'password_hash' => password_hash($data['password'], PASSWORD_DEFAULT),
+                'id' => $userId
+            ]);
+        }
+
         $sql = "UPDATE users
                 SET address = :address,
                     postal_code = :postal_code,
-                    email = :email,
-                    password_hash = :password_hash
+                    email = :email
                 WHERE id = :id";
 
         $stmt = $this->pdo->prepare($sql);
@@ -117,24 +163,7 @@ public function updateProfile($userId, $data)
             'address' => $data['address'],
             'postal_code' => $data['postal_code'],
             'email' => $data['email'],
-            'password_hash' => password_hash($data['password'], PASSWORD_DEFAULT),
             'id' => $userId
         ]);
-    }
-
-    $sql = "UPDATE users
-            SET address = :address,
-                postal_code = :postal_code,
-                email = :email
-            WHERE id = :id";
-
-    $stmt = $this->pdo->prepare($sql);
-
-    return $stmt->execute([
-        'address' => $data['address'],
-        'postal_code' => $data['postal_code'],
-        'email' => $data['email'],
-        'id' => $userId
-    ]);
     }
 }

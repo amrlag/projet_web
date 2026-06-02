@@ -49,6 +49,17 @@ class AuthController extends Controller
 
         try {
             $userModel = new User();
+
+            if ($userModel->emailExists($data['email'])) {
+                echo "Cette adresse email est déjà utilisée.";
+                return;
+            }
+
+            if ($userModel->usernameExists($data['username'])) {
+                echo "Ce pseudo est déjà utilisé.";
+                return;
+            }
+
             $userModel->create($data);
 
             $this->render('register_success', [
@@ -57,7 +68,7 @@ class AuthController extends Controller
             ]);
 
         } catch (PDOException $e) {
-            echo "Erreur lors de l'inscription : " . $e->getMessage();
+            echo "Erreur lors de l'inscription. Veuillez réessayer.";
         }
     }
 

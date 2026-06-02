@@ -34,7 +34,6 @@
     -->
     <a href="?page=home">Accueil</a> |
     <a href="?page=about">À propos</a> |
-    <a href="?page=users">Utilisateurs</a> |
     <a href="?page=member_area">Espace membre</a> |
 
     <?php
@@ -56,6 +55,10 @@
             puisse être exécuté dans la page.
         -->
         Bonjour <?= htmlspecialchars($_SESSION['user']['username']) ?> |
+
+        <?php if (($_SESSION['user']['role'] ?? '') === 'admin'): ?>
+            <a href="?page=users">Utilisateurs</a> |
+        <?php endif; ?>
 
         <!--
             Ce lien permet à l'utilisateur connecté
