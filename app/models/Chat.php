@@ -26,15 +26,16 @@ class Chat
     }
 
     // Ajoute un message dans le mini-chat
-    public function create($userId, $message)
+    public function create($userId, $sessionNickname, $message)
     {
-        $sql = "INSERT INTO chat_messages (user_id, message)
-                VALUES (:user_id, :message)";
+        $sql = "INSERT INTO chat_messages (user_id, session_nickname, message)
+                VALUES (:user_id, :session_nickname, :message)";
 
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([
             'user_id' => $userId,
+            'session_nickname' => $sessionNickname,
             'message' => $message
         ]);
     }
