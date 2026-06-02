@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../app/controllers/AdminController.php';
+require_once __DIR__ . '/../app/controllers/ChatController.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -118,6 +120,23 @@ if ($page === 'home') {
     $controller = new AdminController();
     $controller->storeProduct();
 
+} elseif ($page === 'chat') {
+    $controller = new ChatController();
+    $controller->index();
+
+} elseif ($page === 'chat_store') {
+    $controller = new ChatController();
+    $controller->store();
+
 } else {
     echo "Page introuvable";
 }
+    
+ 
+
+
+    
+
+    
+
+
