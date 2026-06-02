@@ -9,6 +9,8 @@ session_start();
 require_once __DIR__ . '/../app/controllers/HomeController.php';
 require_once __DIR__ . '/../app/controllers/AuthController.php';
 require_once __DIR__ . '/../app/controllers/ProfileController.php';
+require_once __DIR__ . '/../app/controllers/BlogController.php';
+require_once __DIR__ . '/../app/controllers/AdminController.php';
 
 $page = $_GET['page'] ?? 'home';
 
@@ -43,15 +45,78 @@ if ($page === 'home') {
 } elseif ($page === 'logout') {
     $controller = new AuthController();
     $controller->logout();
+
 } elseif ($page === 'member_area') {
     $controller = new HomeController();
     $controller->memberArea();
-   } elseif ($page === 'profile') {
+
+} elseif ($page === 'profile') {
     $controller = new ProfileController();
     $controller->edit();
-   } elseif ($page === 'profile_update') {
+
+} elseif ($page === 'profile_update') {
     $controller = new ProfileController();
     $controller->update();
-    } else {
+
+} elseif ($page === 'blog') {
+    $controller = new BlogController();
+    $controller->index();
+
+} elseif ($page === 'blog_show') {
+    $controller = new BlogController();
+    $controller->show();
+
+} elseif ($page === 'blog_create') {
+    $controller = new BlogController();
+    $controller->create();
+
+} elseif ($page === 'blog_store') {
+    $controller = new BlogController();
+    $controller->store();
+
+} elseif ($page === 'comment_store') {
+    $controller = new BlogController();
+    $controller->addComment();
+
+} elseif ($page === 'admin') {
+    $controller = new AdminController();
+    $controller->index();
+
+} elseif ($page === 'admin_users') {
+    $controller = new AdminController();
+    $controller->users();
+
+} elseif ($page === 'admin_user_show') {
+    $controller = new AdminController();
+    $controller->showUser();
+
+} elseif ($page === 'admin_toggle_block') {
+    $controller = new AdminController();
+    $controller->toggleBlock();
+
+} elseif ($page === 'admin_user_orders') {
+    $controller = new AdminController();
+    $controller->showUserOrders();
+
+} elseif ($page === 'admin_order_details') {
+    $controller = new AdminController();
+    $controller->showOrderDetails();
+
+    } elseif ($page === 'admin_products') {
+    $controller = new AdminController();
+    $controller->products();
+
+} elseif ($page === 'admin_delete_product') {
+    $controller = new AdminController();
+    $controller->deleteProduct();
+} elseif ($page === 'admin_product_create') {
+    $controller = new AdminController();
+    $controller->createProduct();
+
+} elseif ($page === 'admin_product_store') {
+    $controller = new AdminController();
+    $controller->storeProduct();
+
+} else {
     echo "Page introuvable";
 }
