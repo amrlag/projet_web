@@ -25,6 +25,11 @@ class ChatController extends Controller
 
     public function store()
     {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo "MÃ©thode non autorisÃ©e.";
+            return;
+        }
+
         if (!isset($_SESSION['user'])) {
             header('Location: ?page=login');
             exit;
@@ -34,7 +39,11 @@ class ChatController extends Controller
 
         if ($message !== '' && strlen($message) <= 255) {
             $chat = new Chat();
-            $chat->create($_SESSION['user']['id'], $message);
+            $chat->create(
+                $_SESSION['user']['id'],
+                $_SESSION['user']['username'],
+                $message
+            );
         }
 
         header('Location: ?page=chat');

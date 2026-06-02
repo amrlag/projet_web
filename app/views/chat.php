@@ -1,3 +1,5 @@
+<?php require_once __DIR__ . '/partials/header.php'; ?>
+
 <h1>Mini-chat</h1>
 
 <form method="post" action="?page=chat_store">
@@ -37,3 +39,5 @@
     <p>Aucun message pour le moment.</p>
 
 <?php endif; ?>
+
+<?php require_once __DIR__ . '/partials/footer.php'; ?>

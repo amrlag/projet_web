@@ -1,6 +1,4 @@
 <?php
-require_once __DIR__ . '/../app/controllers/AdminController.php';
-require_once __DIR__ . '/../app/controllers/ChatController.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -13,6 +11,7 @@ require_once __DIR__ . '/../app/controllers/AuthController.php';
 require_once __DIR__ . '/../app/controllers/ProfileController.php';
 require_once __DIR__ . '/../app/controllers/BlogController.php';
 require_once __DIR__ . '/../app/controllers/AdminController.php';
+require_once __DIR__ . '/../app/controllers/ChatController.php';
 
 $page = $_GET['page'] ?? 'home';
 
@@ -131,12 +130,3 @@ if ($page === 'home') {
 } else {
     echo "Page introuvable";
 }
-    
- 
-
-
-    
-
-    
-
-
