@@ -64,7 +64,7 @@ require_once __DIR__ . '/partials/header.php';
         <form method="POST" action="?page=comment_store">
 
             <!-- Champ caché contenant l'id du billet -->
-            <input type="hidden" name="post_id" value="<?= $post['id'] ?>">
+            <input type="hidden" name="post_id" value="<?= htmlspecialchars($post['id']) ?>">
 
             <!-- Zone de saisie du commentaire -->
             <textarea name="content" required></textarea><br><br>

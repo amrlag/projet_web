@@ -58,6 +58,7 @@
         Bonjour <?= htmlspecialchars($_SESSION['user']['username']) ?> |
 
         <?php if (($_SESSION['user']['role'] ?? '') === 'admin'): ?>
+            <a href="?page=admin">Administration</a> |
             <a href="?page=users">Utilisateurs</a> |
         <?php endif; ?>
 

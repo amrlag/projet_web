@@ -26,7 +26,7 @@ require_once __DIR__ . '/partials/header.php';
 <br>
 
 <!-- Seul l'administrateur peut voir le lien de création d'un billet -->
-<?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+<?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'admin'): ?>
 
     <a href="?page=blog_create">Créer un nouveau billet</a>
 

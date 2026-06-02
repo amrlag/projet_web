@@ -74,8 +74,8 @@ class Post
     public function create($title, $content, $userId)
     {
         // Requête SQL d'insertion d'un billet
-        $sql = "INSERT INTO posts (title, content, user_id)
-                VALUES (:title, :content, :user_id)";
+        $sql = "INSERT INTO posts (title, content, author_user_id)
+                VALUES (:title, :content, :author_user_id)";
 
         // On prépare la requête
         $stmt = $this->pdo->prepare($sql);
@@ -84,7 +84,7 @@ class Post
         return $stmt->execute([
             'title' => $title,
             'content' => $content,
-            'user_id' => $userId
+            'author_user_id' => $userId
         ]);
     }
 }

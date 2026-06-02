@@ -102,13 +102,14 @@ if ($page === 'home') {
     $controller = new AdminController();
     $controller->showOrderDetails();
 
-    } elseif ($page === 'admin_products') {
+} elseif ($page === 'admin_products') {
     $controller = new AdminController();
     $controller->products();
 
 } elseif ($page === 'admin_delete_product') {
     $controller = new AdminController();
     $controller->deleteProduct();
+
 } elseif ($page === 'admin_product_create') {
     $controller = new AdminController();
     $controller->createProduct();

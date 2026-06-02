@@ -53,12 +53,12 @@ class BlogController extends Controller
         // On récupère le billet correspondant à l'id
         $post = $postModel->getById($id);
 
-        // On récupère les commentaires du billet
-        $comments = $commentModel->getByPost($id);
+        // On récupère les commentaires uniquement si le billet existe
+        $comments = $post ? $commentModel->getByPost($id) : [];
 
         // On affiche la vue blog/show.php avec le billet et les commentaires
         $this->render('blog_show', [
-            'title' => $post['title'] ?? 'Article',
+            'title' => $post ? $post['title'] : 'Article introuvable',
             'post' => $post,
             'comments' => $comments
         ]);
@@ -83,8 +83,21 @@ class BlogController extends Controller
     public function store()
     {
         // On vérifie que l'utilisateur est administrateur
-        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+        if (!isset($_SESSION['user']['role']) || $_SESSION['user']['role'] !== 'admin') {
             echo "Accès refusé.";
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo "Méthode non autorisée.";
+            return;
+        }
+
+        $title = trim($_POST['title'] ?? '');
+        $content = trim($_POST['content'] ?? '');
+
+        if ($title === '' || $content === '') {
+            echo "Le titre et le contenu sont obligatoires.";
             return;
         }
 
@@ -93,8 +106,8 @@ class BlogController extends Controller
 
         // On appelle la méthode create() du modèle pour insérer le billet
         $postModel->create(
-            $_POST['title'],
-            $_POST['content'],
+            $title,
+            $content,
             $_SESSION['user']['id']);
 
         // Après l'insertion, on redirige vers la liste des billets
@@ -105,9 +118,22 @@ class BlogController extends Controller
     // Méthode qui ajoute un commentaire à un billet
     public function addComment()
     {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo "Méthode non autorisée.";
+            return;
+        }
+
         // On vérifie que l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             echo "Vous devez vous inscrire ou vous connecter pour ajouter un commentaire.";
+            return;
+        }
+
+        $postId = $_POST['post_id'] ?? null;
+        $content = trim($_POST['content'] ?? '');
+
+        if (!$postId || $content === '') {
+            echo "Le commentaire est obligatoire.";
             return;
         }
 
@@ -116,13 +142,13 @@ class BlogController extends Controller
 
         // On insère le commentaire dans la base de données
         $commentModel->create(
-            $_POST['post_id'],
+            $postId,
             $_SESSION['user']['id'],
-            $_POST['content']
+            $content
         );
 
         // On redirige vers le billet commenté
-        header('Location: ?page=blog_show&id=' . $_POST['post_id']);
+        header('Location: ?page=blog_show&id=' . $postId);
         exit;
     }
 }

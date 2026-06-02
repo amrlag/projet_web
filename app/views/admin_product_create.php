@@ -15,9 +15,11 @@ require_once __DIR__ . '/partials/header.php';
 
     <select id="category_id" name="category_id" required>
         <option value="">-- Choisir une catégorie --</option>
-        <option value="1">Informatique</option>
-        <option value="2">Livres</option>
-        <option value="3">Hi-Fi</option>
+        <?php foreach ($categories as $category): ?>
+            <option value="<?= htmlspecialchars($category['id']) ?>">
+                <?= htmlspecialchars($category['name']) ?>
+            </option>
+        <?php endforeach; ?>
     </select>
 </div>
 

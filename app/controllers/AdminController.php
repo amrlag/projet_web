@@ -159,8 +159,12 @@ public function createProduct()
 {
     $this->checkAdmin();
 
+    $adminModel = new Admin();
+    $categories = $adminModel->getAllCategories();
+
     $this->render('admin_product_create', [
-        'title' => 'Ajouter un article'
+        'title' => 'Ajouter un article',
+        'categories' => $categories
     ]);
 }
 

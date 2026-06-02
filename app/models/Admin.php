@@ -167,6 +167,22 @@ public function getAllProducts()
 }
 
 /**
+ * Récupère toutes les catégories de produits.
+ */
+public function getAllCategories()
+{
+    $sql = "
+        SELECT id, name
+        FROM categories
+        ORDER BY name
+    ";
+
+    return $this->pdo
+        ->query($sql)
+        ->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
  * Supprime un produit.
  */
 public function deleteProduct($id)
