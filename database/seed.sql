@@ -27,3 +27,28 @@ SELECT 'Autre'
 WHERE NOT EXISTS (
     SELECT 1 FROM categories WHERE name = 'Autre'
 );
+
+INSERT INTO users (
+    first_name,
+    last_name,
+    address,
+    postal_code,
+    birth_date,
+    email,
+    username,
+    password_hash,
+    role
+)
+SELECT
+    'Admin',
+    'Projet',
+    'Adresse admin',
+    '1000',
+    '2000-01-01',
+    'admin@projet.local',
+    'admin',
+    '$2y$10$xcl/ynwe1UWegh87X.gxg.wdSZVzu2k0CtOuAj.WY5jlU4uFsCiHS',
+    'admin'
+WHERE NOT EXISTS (
+    SELECT 1 FROM users WHERE username = 'admin' OR email = 'admin@projet.local'
+);
