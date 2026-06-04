@@ -1,111 +1,64 @@
+<?php
+$currentPage = $_GET['page'] ?? 'home';
+$cartCount = array_sum($_SESSION['cart'] ?? []);
+$isLoggedIn = isset($_SESSION['user']);
+$isAdmin = $isLoggedIn && ($_SESSION['user']['role'] ?? '') === 'admin';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-
-    <!--
-        Ici, j'affiche le titre de la page dans l'onglet du navigateur.
-
-        La variable $title peut être envoyée depuis le contrôleur
-        avec la méthode render().
-
-        Si aucun titre n'est défini, alors j'affiche par défaut "Projet Web".
-
-        htmlspecialchars() permet de sécuriser l'affichage du titre
-        pour éviter qu'un code HTML ou JavaScript soit exécuté.
-    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($title ?? 'Projet Web') ?></title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<!--
-    Ici, je crée la barre de navigation du site.
+<header class="site-header">
+    <nav class="navbar" aria-label="Navigation principale">
+        <a class="brand" href="?page=home">
+            <span class="brand-mark">PW</span>
+            <span class="brand-text">Projet Web</span>
+        </a>
 
-    Cette partie est placée dans le header parce qu'elle doit apparaître
-    sur plusieurs pages du site.
--->
-<nav>
-    <!--
-        Liens principaux du site.
+        <div class="nav-links">
+            <a class="<?= $currentPage === 'home' ? 'active' : '' ?>" href="?page=home">Accueil</a>
+            <a class="<?= $currentPage === 'about' ? 'active' : '' ?>" href="?page=about">A propos</a>
+            <a class="<?= $currentPage === 'blog' ? 'active' : '' ?>" href="?page=blog">Blog</a>
+            <a class="<?= $currentPage === 'shop' ? 'active' : '' ?>" href="?page=shop">Boutique</a>
 
-        Chaque lien envoie une valeur différente dans l'URL avec ?page=...
-        Le routeur va ensuite utiliser cette valeur pour savoir
-        quelle page afficher.
-    -->
-    <a href="?page=home">Accueil</a> |
-    <a href="?page=about">À propos</a> |
-    <a href="?page=member_area">Espace membre</a> |
-    <a href="?page=blog">Blog / News</a> |
-    <a href="?page=shop">Boutique</a> |
+            <?php if ($isLoggedIn): ?>
+                <a class="<?= $currentPage === 'member_area' ? 'active' : '' ?>" href="?page=member_area">Espace membre</a>
+                <a class="<?= $currentPage === 'chat' ? 'active' : '' ?>" href="?page=chat">Mini-chat</a>
+                <a class="<?= $currentPage === 'my_orders' ? 'active' : '' ?>" href="?page=my_orders">Mes commandes</a>
 
-    <?php
+                <?php if ($isAdmin): ?>
+                    <a class="<?= str_starts_with($currentPage, 'admin') ? 'active' : '' ?>" href="?page=admin">Administration</a>
+                <?php endif; ?>
+            <?php endif; ?>
+        </div>
 
-    // Ici, je vérifie si l'utilisateur est connecté.
-    //
-    // Si $_SESSION['user'] existe, cela veut dire qu'une session active
-    // est enregistrée pour l'utilisateur.
-    if (isset($_SESSION['user'])):
+        <div class="nav-actions">
+            <a class="cart-link <?= $currentPage === 'cart' ? 'active' : '' ?>" href="?page=cart" aria-label="Voir mon panier">
+                <span class="cart-icon" aria-hidden="true"></span>
+                <span>Panier</span>
+                <span class="cart-badge"><?= htmlspecialchars($cartCount) ?></span>
+            </a>
 
-    ?>
+            <?php if ($isLoggedIn): ?>
+                <div class="user-chip">
+                    <span class="user-dot"></span>
+                    <span><?= htmlspecialchars($_SESSION['user']['username']) ?></span>
+                </div>
+                <a class="ghost-link" href="?page=profile">Profil</a>
+                <a class="primary-link" href="?page=logout">Deconnexion</a>
+            <?php else: ?>
+                <a class="ghost-link" href="?page=login">Connexion</a>
+                <a class="primary-link" href="?page=register">Inscription</a>
+            <?php endif; ?>
+        </div>
+    </nav>
+</header>
 
-        <!--
-            Si l'utilisateur est connecté,
-            j'affiche un message de bienvenue avec son pseudo.
-
-            htmlspecialchars() permet de sécuriser l'affichage du pseudo.
-            Cela évite qu'un pseudo contenant du code HTML ou JavaScript
-            puisse être exécuté dans la page.
-        -->
-        Bonjour <?= htmlspecialchars($_SESSION['user']['username']) ?> |
-
-        <a href="?page=chat">Mini-chat</a> |
-        <a href="?page=my_orders">Mes commandes</a> |
-
-        <?php if (($_SESSION['user']['role'] ?? '') === 'admin'): ?>
-            <a href="?page=admin">Administration</a> |
-            <a href="?page=users">Utilisateurs</a> |
-        <?php endif; ?>
-
-        <!--
-            Ce lien permet à l'utilisateur connecté
-            d'aller modifier les informations de son profil.
-        -->
-        <a href="?page=profile">Modifier profil</a> |
-
-        <!--
-            Ce lien permet à l'utilisateur connecté
-            de se déconnecter de son compte.
-        -->
-        <a href="?page=logout">Déconnexion</a>
-
-    <?php
-
-    // Si l'utilisateur n'est pas connecté,
-    // j'affiche les liens pour s'inscrire ou se connecter.
-    else:
-
-    ?>
-
-        <!--
-            Ce lien permet au visiteur d'aller vers le formulaire d'inscription.
-        -->
-        <a href="?page=register">Inscription</a> |
-
-        <!--
-            Ce lien permet au visiteur d'aller vers le formulaire de connexion.
-        -->
-        <a href="?page=login">Connexion</a>
-
-    <?php
-
-    // Fin de la condition qui vérifie si l'utilisateur est connecté ou non.
-    endif;
-
-    ?>
-</nav>
-
-<!--
-    Cette ligne horizontale sert simplement à séparer visuellement
-    le menu du contenu principal de la page.
--->
-<hr>
+<main class="site-main">
