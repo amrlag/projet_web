@@ -3,6 +3,8 @@ $currentPage = $_GET['page'] ?? 'home';
 $cartCount = array_sum($_SESSION['cart'] ?? []);
 $isLoggedIn = isset($_SESSION['user']);
 $isAdmin = $isLoggedIn && ($_SESSION['user']['role'] ?? '') === 'admin';
+$memberMenuActive = in_array($currentPage, ['member_area', 'chat', 'my_orders'], true)
+    || str_starts_with($currentPage, 'admin');
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +31,18 @@ $isAdmin = $isLoggedIn && ($_SESSION['user']['role'] ?? '') === 'admin';
             <a class="<?= $currentPage === 'shop' ? 'active' : '' ?>" href="?page=shop">Boutique</a>
 
             <?php if ($isLoggedIn): ?>
-                <a class="<?= $currentPage === 'member_area' ? 'active' : '' ?>" href="?page=member_area">Espace membre</a>
-                <a class="<?= $currentPage === 'chat' ? 'active' : '' ?>" href="?page=chat">Mini-chat</a>
-                <a class="<?= $currentPage === 'my_orders' ? 'active' : '' ?>" href="?page=my_orders">Mes commandes</a>
+                <details class="nav-dropdown <?= $memberMenuActive ? 'active' : '' ?>">
+                    <summary>Mon espace</summary>
+                    <div class="nav-dropdown-menu">
+                        <a class="<?= $currentPage === 'member_area' ? 'active' : '' ?>" href="?page=member_area">Espace membre</a>
+                        <a class="<?= $currentPage === 'chat' ? 'active' : '' ?>" href="?page=chat">Mini-chat</a>
+                        <a class="<?= $currentPage === 'my_orders' ? 'active' : '' ?>" href="?page=my_orders">Mes commandes</a>
 
-                <?php if ($isAdmin): ?>
-                    <a class="<?= str_starts_with($currentPage, 'admin') ? 'active' : '' ?>" href="?page=admin">Administration</a>
-                <?php endif; ?>
+                        <?php if ($isAdmin): ?>
+                            <a class="<?= str_starts_with($currentPage, 'admin') ? 'active' : '' ?>" href="?page=admin">Administration</a>
+                        <?php endif; ?>
+                    </div>
+                </details>
             <?php endif; ?>
         </div>
 
@@ -52,7 +59,7 @@ $isAdmin = $isLoggedIn && ($_SESSION['user']['role'] ?? '') === 'admin';
                     <span><?= htmlspecialchars($_SESSION['user']['username']) ?></span>
                 </div>
                 <a class="ghost-link" href="?page=profile">Profil</a>
-                <a class="primary-link" href="?page=logout">Deconnexion</a>
+                <a class="primary-link danger-action" href="?page=logout">Deconnexion</a>
             <?php else: ?>
                 <a class="ghost-link" href="?page=login">Connexion</a>
                 <a class="primary-link" href="?page=register">Inscription</a>
