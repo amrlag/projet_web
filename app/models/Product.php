@@ -17,7 +17,7 @@ class Product
                 FROM products p
                 JOIN categories c ON p.category_id = c.id
                 WHERE p.is_active = 1
-                ORDER BY c.name, p.name";
+                ORDER BY FIELD(c.name, 'Informatique', 'Livre', 'Hi-Fi'), p.name";
 
         $stmt = $this->pdo->query($sql);
 

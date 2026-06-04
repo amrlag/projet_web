@@ -180,11 +180,65 @@ public function storeProduct()
         'name' => trim($_POST['name'] ?? ''),
         'description' => trim($_POST['description'] ?? ''),
         'unit_price' => $_POST['unit_price'] ?? '',
-        'is_active' => 1
+        'is_active' => isset($_POST['is_active']) ? 1 : 0
     ];
 
     $adminModel = new Admin();
     $adminModel->createProduct($data);
+
+    header('Location: ?page=admin_products');
+    exit;
+}
+
+/**
+ * Affiche le formulaire de modification d'un produit.
+ */
+public function editProduct()
+{
+    $this->checkAdmin();
+
+    $id = $_GET['id'] ?? null;
+    $adminModel = new Admin();
+    $product = $adminModel->getProductById($id);
+
+    if (!$product) {
+        echo "Article introuvable.";
+        return;
+    }
+
+    $categories = $adminModel->getAllCategories();
+
+    $this->render('admin_product_edit', [
+        'title' => 'Modifier un article',
+        'product' => $product,
+        'categories' => $categories
+    ]);
+}
+
+/**
+ * Enregistre les modifications d'un produit.
+ */
+public function updateProduct()
+{
+    $this->checkAdmin();
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        echo "Methode non autorisee.";
+        return;
+    }
+
+    $id = $_POST['id'] ?? null;
+
+    $data = [
+        'category_id' => $_POST['category_id'] ?? '',
+        'name' => trim($_POST['name'] ?? ''),
+        'description' => trim($_POST['description'] ?? ''),
+        'unit_price' => $_POST['unit_price'] ?? '',
+        'is_active' => isset($_POST['is_active']) ? 1 : 0
+    ];
+
+    $adminModel = new Admin();
+    $adminModel->updateProduct($id, $data);
 
     header('Location: ?page=admin_products');
     exit;

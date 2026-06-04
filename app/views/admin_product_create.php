@@ -46,6 +46,15 @@ require_once __DIR__ . '/partials/header.php';
 
     <br>
 
+    <div>
+        <label>
+            <input type="checkbox" name="is_active" value="1" checked>
+            Article actif
+        </label>
+    </div>
+
+    <br>
+
     <button type="submit">Ajouter l'article</button>
 
 </form>

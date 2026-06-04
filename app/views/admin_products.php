@@ -23,6 +23,7 @@ require_once __DIR__ . '/partials/header.php';
     <table border="1" cellpadding="5">
         <tr>
             <th>ID</th>
+            <th>CatÃ©gorie</th>
             <th>Nom</th>
             <th>Description</th>
             <th>Prix</th>
@@ -34,6 +35,8 @@ require_once __DIR__ . '/partials/header.php';
             <tr>
                 <td><?= $product['id'] ?></td>
 
+                <td><?= htmlspecialchars($product['category_name']) ?></td>
+
                 <td><?= htmlspecialchars($product['name']) ?></td>
 
                 <td><?= htmlspecialchars($product['description']) ?></td>
@@ -43,8 +46,12 @@ require_once __DIR__ . '/partials/header.php';
                 <td><?= $product['is_active'] ? 'Oui' : 'Non' ?></td>
 
                 <td>
+                    <a href="?page=admin_product_edit&id=<?= $product['id'] ?>">
+                        Modifier
+                    </a>
+                    |
                     <a href="?page=admin_delete_product&id=<?= $product['id'] ?>"
-                       onclick="return confirm('Supprimer cet article ?');">
+                       onclick="return confirm('Desactiver cet article ?');">
                         Supprimer
                     </a>
                 </td>
