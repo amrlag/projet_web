@@ -36,6 +36,7 @@
     <a href="?page=about">À propos</a> |
     <a href="?page=member_area">Espace membre</a> |
     <a href="?page=blog">Blog / News</a> |
+    <a href="?page=shop">Boutique</a> |
 
     <?php
 
@@ -58,6 +59,7 @@
         Bonjour <?= htmlspecialchars($_SESSION['user']['username']) ?> |
 
         <a href="?page=chat">Mini-chat</a> |
+        <a href="?page=my_orders">Mes commandes</a> |
 
         <?php if (($_SESSION['user']['role'] ?? '') === 'admin'): ?>
             <a href="?page=admin">Administration</a> |

@@ -12,6 +12,7 @@ require_once __DIR__ . '/../app/controllers/ProfileController.php';
 require_once __DIR__ . '/../app/controllers/BlogController.php';
 require_once __DIR__ . '/../app/controllers/AdminController.php';
 require_once __DIR__ . '/../app/controllers/ChatController.php';
+require_once __DIR__ . '/../app/controllers/ShopController.php';
 
 $page = $_GET['page'] ?? 'home';
 
@@ -126,6 +127,34 @@ if ($page === 'home') {
 } elseif ($page === 'chat_store') {
     $controller = new ChatController();
     $controller->store();
+
+} elseif ($page === 'shop') {
+    $controller = new ShopController();
+    $controller->index();
+
+} elseif ($page === 'cart_add') {
+    $controller = new ShopController();
+    $controller->addToCart();
+
+} elseif ($page === 'cart') {
+    $controller = new ShopController();
+    $controller->cart();
+
+} elseif ($page === 'cart_clear') {
+    $controller = new ShopController();
+    $controller->clearCart();
+
+} elseif ($page === 'checkout') {
+    $controller = new ShopController();
+    $controller->checkout();
+
+} elseif ($page === 'my_orders') {
+    $controller = new ShopController();
+    $controller->myOrders();
+
+} elseif ($page === 'order_details') {
+    $controller = new ShopController();
+    $controller->orderDetails();
 
 } else {
     echo "Page introuvable";
