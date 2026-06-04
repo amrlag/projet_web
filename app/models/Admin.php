@@ -156,14 +156,37 @@ public function getOrderItems($orderId)
 public function getAllProducts()
 {
     $sql = "
-        SELECT *
+        SELECT products.*, categories.name AS category_name
         FROM products
-        ORDER BY created_at DESC
+        JOIN categories ON categories.id = products.category_id
+        ORDER BY products.is_active DESC,
+                 FIELD(categories.name, 'Informatique', 'Livre', 'Hi-Fi'),
+                 products.name
     ";
 
     return $this->pdo
         ->query($sql)
         ->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+ * Récupère un produit par son id.
+ */
+public function getProductById($id)
+{
+    $sql = "
+        SELECT *
+        FROM products
+        WHERE id = :id
+        LIMIT 1
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([
+        'id' => $id
+    ]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 /**
@@ -174,7 +197,7 @@ public function getAllCategories()
     $sql = "
         SELECT id, name
         FROM categories
-        ORDER BY name
+        ORDER BY FIELD(name, 'Informatique', 'Livre', 'Hi-Fi'), name
     ";
 
     return $this->pdo
@@ -188,7 +211,8 @@ public function getAllCategories()
 public function deleteProduct($id)
 {
     $sql = "
-        DELETE FROM products
+        UPDATE products
+        SET is_active = 0
         WHERE id = :id
     ";
 
@@ -218,6 +242,33 @@ public function createProduct($data)
         'description' => $data['description'],
         'unit_price' => $data['unit_price'],
         'is_active' => $data['is_active']
+    ]);
+}
+
+/**
+ * Modifie un produit existant.
+ */
+public function updateProduct($id, $data)
+{
+    $sql = "
+        UPDATE products
+        SET category_id = :category_id,
+            name = :name,
+            description = :description,
+            unit_price = :unit_price,
+            is_active = :is_active
+        WHERE id = :id
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+
+    return $stmt->execute([
+        'category_id' => $data['category_id'],
+        'name' => $data['name'],
+        'description' => $data['description'],
+        'unit_price' => $data['unit_price'],
+        'is_active' => $data['is_active'],
+        'id' => $id
     ]);
 }
 

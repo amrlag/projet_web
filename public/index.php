@@ -120,6 +120,14 @@ if ($page === 'home') {
     $controller = new AdminController();
     $controller->storeProduct();
 
+} elseif ($page === 'admin_product_edit') {
+    $controller = new AdminController();
+    $controller->editProduct();
+
+} elseif ($page === 'admin_product_update') {
+    $controller = new AdminController();
+    $controller->updateProduct();
+
 } elseif ($page === 'chat') {
     $controller = new ChatController();
     $controller->index();

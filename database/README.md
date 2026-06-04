@@ -37,7 +37,8 @@ projet_web_noellie_angel_amr
 
 `seed.sql` contient les donnees minimales communes :
 
-- categories de base ;
+- categories de vente obligatoires ;
+- produits de base de la boutique ;
 - compte administrateur de test.
 
 ## Compte administrateur de test
@@ -51,6 +52,26 @@ Mot de passe : admin123
 ```
 
 Ce compte sert uniquement au developpement local et aux tests du projet.
+
+## Donnees boutique
+
+Le fichier `seed.sql` cree les 3 categories demandees dans la consigne :
+
+```text
+Informatique
+Livre
+Hi-Fi
+```
+
+Il ajoute aussi 5 articles actifs par categorie, soit 15 articles disponibles dans la boutique.
+
+La liste des articles est visible par tout le monde. Seuls les utilisateurs connectes peuvent valider une commande.
+
+L'administrateur peut ajouter, modifier ou desactiver des articles depuis :
+
+```text
+?page=admin_products
+```
 
 ## Si la base existe deja
 

@@ -21,7 +21,10 @@ class ShopController extends Controller
     {
         $id = (int)($_GET['id'] ?? 0);
 
-        if ($id <= 0) {
+        $productModel = new Product();
+        $product = $productModel->findActiveById($id);
+
+        if (!$product) {
             header('Location: ?page=shop');
             exit;
         }
@@ -151,12 +154,14 @@ class ShopController extends Controller
         $products = $productModel->getAll();
         $items = [];
         $total = 0;
+        $validProductIds = [];
 
         foreach ($products as $product) {
             if (!isset($cart[$product->id])) {
                 continue;
             }
 
+            $validProductIds[] = (int)$product->id;
             $quantity = (int)$cart[$product->id];
             $lineTotal = (float)$product->unit_price * $quantity;
             $total += $lineTotal;
@@ -166,6 +171,16 @@ class ShopController extends Controller
                 'quantity' => $quantity,
                 'line_total' => $lineTotal
             ];
+        }
+
+        foreach (array_keys($cart) as $productId) {
+            if (!in_array((int)$productId, $validProductIds, true)) {
+                unset($_SESSION['cart'][$productId]);
+            }
+        }
+
+        if (isset($_SESSION['cart']) && empty($_SESSION['cart'])) {
+            unset($_SESSION['cart']);
         }
 
         return [

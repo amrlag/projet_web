@@ -1,7 +1,7 @@
-<hr>
+</main>
 
-<footer>
-    <p>Projet de développement web - 2025/2026</p>
+<footer class="site-footer">
+    <p>Projet de developpement web - 2025/2026</p>
 </footer>
 
 </body>
