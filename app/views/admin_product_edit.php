@@ -1,4 +1,8 @@
-<?php require_once __DIR__ . '/partials/header.php'; ?>
+<?php
+/** @var array<string, mixed> $product */
+/** @var array<int, array<string, mixed>> $categories */
+require_once __DIR__ . '/partials/header.php';
+?>
 
 <h1>Modifier un article</h1>
 
