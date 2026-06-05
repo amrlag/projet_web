@@ -23,7 +23,7 @@ require_once __DIR__ . '/partials/header.php';
     <table border="1" cellpadding="5">
         <tr>
             <th>ID</th>
-            <th>CatÃ©gorie</th>
+            <th>Categorie</th>
             <th>Nom</th>
             <th>Description</th>
             <th>Prix</th>
