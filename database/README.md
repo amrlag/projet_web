@@ -45,11 +45,7 @@ projet_web_noellie_angel_amr
 
 Apres avoir importe `seed.sql`, un compte admin commun est disponible :
 
-```text
-Login : admin
-Email : admin@projet.local
-Mot de passe : admin123
-```
+
 
 Ce compte sert uniquement au developpement local et aux tests du projet.
 
