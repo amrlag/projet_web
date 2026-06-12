@@ -45,7 +45,11 @@ projet_web_noellie_angel_amr
 
 Apres avoir importe `seed.sql`, un compte admin commun est disponible :
 
+Après import de `database/schema.sql` puis `database/seed.sql`, un compte administrateur de test est disponible :
 
+- Login : `admin`
+- Mot de passe : `admin123`
+- Email : `admin@projet.local`
 
 Ce compte sert uniquement au developpement local et aux tests du projet.
 
